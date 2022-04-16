@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .mobileBox div {
+        .mobileBox {
             width: 400px;
+            margin-top: 250px;
 
         }
         .container{
@@ -22,7 +23,7 @@
     <div class="container">
 
         
-        <div>
+        <div style="position: absolute; left: 0; box-shadow: inset 0 0 12px 1px rgb(109, 106, 104); font-size: 20px; padding: 30px;">
         <p>Sort by Price</p>
         <select name="Sort by Price" id="select">
             <option value="tb">high to low</option>
@@ -35,7 +36,7 @@
         </select>
     </div>
     
-    <div>
+    <div style="position: absolute; right: 0; box-shadow: inset 0 0 12px 1px rgb(109, 106, 104); width: 80px; font-size: 40px; height: 50px;">
         <a href="cart.html">Cart</a>
     </div>
     
@@ -113,12 +114,11 @@
     ];
 
     localStorage.setItem('mobileData', JSON.stringify(data));
-
     var storeData = JSON.parse(localStorage.getItem('mobileData'));
-    // display(storeData);
-
     var cartData ;
 
+    display(storeData);
+    
     function display(storeData) {
         storeData.forEach((element, i) => {
             var box = document.createElement('div');
@@ -131,11 +131,11 @@
             name.innerText = element.name;
 
             var price = document.createElement('h2');
-            price.innerText = element.price;
+            price.innerText ="Price - " +element.price;
             price.setAttribute('id', 'priceId');
 
             var rating = document.createElement('h2');
-            rating.innerText = element.rating;
+            rating.innerText = "Rating - " +element.rating;
             rating.setAttribute('id', 'ratingId');
 
             var btn = document.createElement('button');
@@ -162,40 +162,41 @@
 
 
 
-    var store = storeData;
+    
     document.querySelector('#select').addEventListener('change', () => {
+        var store = JSON.parse(localStorage.getItem('mobileData'));
+        document.querySelector('.mobileBox').innerHTML = "";
         var changes = document.querySelector("#select").value;
-
-        event.preventDefault();
+        
         store.sort(function (a, b) {
             event.preventDefault();
             if (changes == 'tb') {
                 return b.price - a.price;
             }
-            else if (changes == 'bt') {
+            else{
                 return a.price - b.price;
             }
         });
-        // console.log(store);
+        console.log(store)
         display(store);
     })
-
+    
     document.querySelector('#selectRate').addEventListener('change', () => {
+        var store = JSON.parse(localStorage.getItem('mobileData'));
+        document.querySelector('.mobileBox').innerHTML = "";
         var changes = document.querySelector("#selectRate").value;
-        event.preventDefault();
+        
         store.sort(function (a, b) {
             event.preventDefault();
             if (changes == 'tb') {
                 return b.rating - a.rating;
             }
-            else if (changes == 'bt') {
+            else {
                 return a.rating - b.rating;
             }
-            else {
-                return;
-            }
+            
         })
-        // console.log(store);
+        console.log(store);
         display(store);
     })
 
